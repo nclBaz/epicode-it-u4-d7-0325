@@ -1,7 +1,6 @@
 import entities.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -10,7 +9,13 @@ public class Main {
 		User giovanni = new User("Giovanni", "Storti");
 		User giacomo = new User("Giacomo", "Poretti");
 
-		ArrayList<User> usersList = new ArrayList<>(); // Nelle parentesi angolari vado ad indicare il tipo di dato che voglio venga salvato nella lista
+		List<User> usersList = new LinkedList<>(); // Nelle parentesi angolari vado ad indicare il tipo di dato che voglio venga salvato nella lista
+		// LinkedList<User> usersList = new LinkedList<>();
+		// Se a sx dell'uguale metto List (e non LinkedList o ArrayList) sto usando la tecnica dell'UPCASTING
+		// Avrò a disposizione solo i metodi comuni a tutte le liste, cioè non potrò usare i metodi specifici di LinkedList o di ArrayList
+		// Questa può sembrare una limitazione, ma invece serve per potersi lasciare una "porta aperta" per poter effettuare una sostituzione
+		// "indolore" da un ArrayList ad una LinkedList (o viceversa)
+		// Posso quindi permettermi di fare delle prove col mio codice, testando se ArrayList è più performante di LinkedList ad esempio (o viceversa)
 
 		System.out.println(" ------------------------------------- ADD ----------------------------------------------------- ");
 		System.out.println("La lista ha " + usersList.size() + " elementi");
@@ -86,7 +91,7 @@ public class Main {
 		System.out.println(usersList);
 
 		// ******************************************************** COLLECTIONS E TIPI PRIMITIVI *******************************************
-		// ArrayList<int> numeri = new ArrayList<>(); // <-- Non posso creare Collections contenenti dati primitiv
+		// ArrayList<int> numeri = new ArrayList<>(); // <-- Non posso creare Collections contenenti dati primitivi
 		// Posso però utilizzare le cosiddette WRAPPER CLASSES, ovvero le classi che corrispondono ai tipi primitivi. Ogni tipo primitivo ha la sua:
 		// int -> Integer
 		// double -> Double
@@ -95,5 +100,24 @@ public class Main {
 		ArrayList<Integer> numeri = new ArrayList<>();
 		numeri.add(10);
 		numeri.add(20);
+
+		// ******************************************************** RIMUOVERE ELMENTI DA LISTE *******************************************
+		ArrayList<String> lettere = new ArrayList<>(Arrays.asList("a", "b", "c", "d", "e", "f")); // Arrays.asList mi crea una lista "al volo"
+		// e quindi mi permette di inizializzare un'altra lista volendo
+
+		System.out.println(lettere);
+
+//		for (String lettera : lettere) {
+//			if (lettera.equals("b")) lettere.remove(lettera); // <-- ConcurrentModificationException, cioè non posso rimuovere elementi mentre itero
+//		}
+
+		// Per poter rimuovere elementi durante un ciclo posso o usare un Iterator oppure usare removeIf (che vedremo successivamente)
+		Iterator<String> iterator = lettere.iterator();
+		while (iterator.hasNext()) { // Fino a che ci sono ulteriori elementi, prosegui con il ciclo
+			String lettera = iterator.next(); //
+			if (lettera.equals("b")) iterator.remove(); // Attenzione che qua non stiamo usando il .remove delle liste ma quello dell'iterator
+		}
+
+		System.out.println(lettere);
 	}
 }
