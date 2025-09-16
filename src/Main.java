@@ -119,5 +119,88 @@ public class Main {
 		}
 
 		System.out.println(lettere);
+
+
+		// ****************************************************************** SET **********************************************************
+		// I SET sono come se fossero delle liste che però NON AMMETTONO DUPLICATI
+		// Attenzione però che questo significa che per ogni inserimento, il metodo add() prima di aggiungere dovrà ciclare su tutti gli elementi
+		// del Set per controllare che il nuovo elemento non ci sia già
+		// Se l'elemento non c'è lo inserisce, se c'è già non lo inserisce e il metodo add() ci ritornerà false
+
+		HashSet<User> usersSet = new HashSet<>();
+		// Set<User> usersSet = new HashSet<>(); volendo potrei usare l'upcasting pure coi Set
+		// HashSet è il tipo di Set più utilizzato (non mantiene alcun ordinamento). Alternative sono il LinkedHashSet
+		// (che mantiene un ordine di inserimento degli elementi) e il
+		// TreeSet ma mi ordina gli elementi (alfabetico nel caso di testo, numerico nel caso di numeri, nel caso di oggetti tipo User dovrei definire
+		// io un criterio di ordinamento)
+		usersSet.add(aldo);
+		usersSet.add(giovanni);
+		usersSet.add(giacomo);
+		usersSet.add(aldo); // Aggiungere un duplicato non è vietato,  Intellij mi segnala la cosa con un warning, ma non ricevo alcun errore o eccezione
+		// Il metodo non farà niente (nessun aggiunta) ma mi tornerà false
+		System.out.println(usersSet);
+
+		TreeSet<String> alfabeto = new TreeSet<>(); // Attenzione che ordinare gli elementi in ordine alfabetico è un'operazione molto costosa quindi
+		// a meno che non sia strettamente necessario, meglio usare altri tipi di Set
+		alfabeto.add("z");
+		alfabeto.add("q");
+		alfabeto.add("b");
+		alfabeto.add("f");
+
+		System.out.println(alfabeto);
+
+		// ****************************************************************** MAP **********************************************************
+		// Nelle Map ogni elemento è rappresentato da una COPPIA di <CHIAVE, VALORE>. Quando creiamo una Map difatti dovremo specificare sia il tipo
+		// di dato della chiave che il tipo di dato del valore
+		// Le chiavi devono essere UNICHE quindi non sono ammessi duplicati. I valori invece possono essere anche duplicati
+		// Esistono vari tipi di Map tipo HashMap (le più usate, non ci danno garanzie sull'ordine di inserimento), LinkedHashMap (mantengono l'ordine
+		// di inserimento), TreeMap (gli elementi saranno ordinati in base all'ordine naturale delle chiavi)
+
+		HashMap<Integer, User> usersMap = new HashMap<>(); // Qua ad esempio sto dichiarando che la mappa avrà le chiavi di tipo intero e i valori di tipo User
+		// Ogni elemento sarà fatto tipo:
+		// 21321321 - Aldo Baglio
+		// 84565645 - Giovanni Storti
+		// 21321323 - Giacomo Poretti
+
+		HashMap<String, String> dizionario = new HashMap<>(); // In questo caso invece sia chiave che valore sono stringhe
+		// Quindi ogni elemento sarà fatto tipo così:
+		// "Albero" - "Definizione della parola Albero"
+		// "Barbagianni" - "Definizione della parola Barbagianni"
+
+		System.out.println("------------------------------------------------- AGGIUNTA ELEMENTI ---------------------------------------------");
+		usersMap.put(21321321, aldo);
+		usersMap.put(84565645, giovanni);
+		usersMap.put(21321323, giacomo);
+		System.out.println(usersMap);
+
+		dizionario.put("Albero", "Definizione della parola Albero");
+		dizionario.put("Barbagianni", "Definizione della parola Barbagianni");
+		dizionario.put("Albero", "asoidjioasjdoijsaoidj"); // Non ci possono essere 2 elementi con la stessa chiave,
+		// ma se faccio put con la stessa mi sovrascrive il precedente
+		System.out.println(dizionario);
+
+		System.out.println("------------------------------------------------- LEGGERE ELEMENTI ---------------------------------------------");
+		System.out.println("La definizione di Barbagianni è: " + dizionario.get("Barbagianni")); // Se non viene trovata la chiave, otterrò NULL
+
+		System.out.println("------------------------------------------------- RIMUOVERE ELEMENTI ---------------------------------------------");
+		dizionario.remove("Albero"); // Tramite la chiave posso rimuovere un elemento
+
+		System.out.println("------------------------------------------------- MODIFICARE IL VALORE DI UN ELEMENTO ---------------------------------------------");
+		dizionario.replace("Barbagianni", "Definizione più aggiornata di Barbagianni"); // Mi torna il valore vecchio se lo trova altrimenti NULL
+
+		System.out.println("------------------------------------------------- OTTENERE L'ELENCO DI TUTTE LE CHIAVI ---------------------------------------------");
+
+		dizionario.put("Albero", "Definizione della parola Albero");
+		Set<String> chiaviDizionario = dizionario.keySet();
+
+		for (String chiave : chiaviDizionario) {
+			System.out.println("Chiave: " + chiave);
+			System.out.println("Valore: " + dizionario.get(chiave));
+		}
+
+		System.out.println("------------------------------------------------- OTTENERE L'ELENCO DI TUTTI I VALORI ---------------------------------------------");
+		Collection<String> listaValoriDizionario = dizionario.values();
+		System.out.println(listaValoriDizionario);
+
 	}
 }
